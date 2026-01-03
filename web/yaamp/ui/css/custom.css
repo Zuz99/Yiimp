@@ -1,0 +1,93 @@
+/* Custom overrides (loaded last) - keep minimal to preserve legacy Yiimp style */
+
+/* Tabular numbers for cleaner hash/amount columns */
+table.dataGrid,
+table.dataGrid2,
+table.reportgrid1 {
+	font-variant-numeric: tabular-nums;
+}
+
+/* Keep numeric columns on one line */
+table.dataGrid td[align="right"],
+table.dataGrid th[align="right"],
+table.dataGrid2 td[align="right"],
+table.dataGrid2 th[align="right"],
+table.reportgrid1 td[align="right"],
+table.reportgrid1 th[align="right"],
+td.right, th.right {
+	white-space: nowrap;
+}
+
+/* Contrast fix: some setups use a dark page background while the default
+ * section headers are light gray. Force a readable text color. */
+.main-left-title,
+.main-left-title a {
+	color: #111 !important;
+}
+
+/* Mobile: allow horizontal scroll for wide tables without breaking layout */
+@media (max-width: 768px) {
+	table.dataGrid,
+	table.dataGrid2,
+	table.reportgrid1 {
+		display: block;
+		overflow-x: auto;
+		-webkit-overflow-scrolling: touch;
+	}
+}
+
+/* ===== Getting Started page styles (scoped, light + readable) ===== */
+/* IMPORTANT: Keep styles scoped to .gs-* so the rest of the site keeps its original theme. */
+
+.gs-container {
+	max-width: 1100px;
+	margin: 0 auto;
+	padding: 18px 14px;
+}
+
+.gs-hero {
+	padding: 18px;
+	border: 1px solid #d8d8d8;
+	border-radius: 12px;
+	background: #ffffff;
+	box-shadow: 0 8px 22px rgba(0,0,0,0.10);
+}
+
+.gs-hero h1 { margin: 0 0 6px 0; font-size: 26px; color: #111; }
+.gs-hero p { margin: 0; color: #444; }
+
+.gs-card {
+	margin-top: 14px;
+	padding: 18px;
+	border: 1px solid #d8d8d8;
+	border-radius: 12px;
+	background: #ffffff;
+	box-shadow: 0 8px 22px rgba(0,0,0,0.08);
+}
+
+.gs-card h2 { margin-top: 0; font-size: 18px; color: #111; }
+.gs-card p, .gs-card li { color: #222; }
+
+.gs-note { color: #555; }
+
+.gs-code pre {
+	white-space: pre-wrap;
+	word-break: break-word;
+	background: #f6f8fa;
+	border: 1px solid #e3e3e3;
+	border-radius: 10px;
+	padding: 12px;
+	overflow: auto;
+	color: #111;
+}
+
+.gs-tablewrap { overflow-x: auto; }
+
+/* On the Getting Started page, make tables readable without changing global table theme */
+.gs-container .dataGrid th {
+	background: #f2f2f2 !important;
+	color: #111 !important;
+}
+.gs-container .dataGrid td {
+	color: #111 !important;
+}
