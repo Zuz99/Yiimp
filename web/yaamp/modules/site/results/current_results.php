@@ -170,8 +170,9 @@ foreach ($algos as $item)
 			else 
 				echo "<td align='center' style='font-size: .8em;'><b>$port</b></td>";
             
-			$users_total = getdbocount('db_accounts', "id IN (SELECT DISTINCT userid FROM workers)");
-			$users_coins = getdbocount('db_accounts', "coinid=:coinid and (id IN (SELECT DISTINCT userid FROM workers))", array(':coinid' => $coin->id));
+			$active_since = time() - 600; // 10 minutes
+			$users_total = (int) dboscalar("SELECT COUNT(DISTINCT userid) FROM workers WHERE algo=:algo AND time>=:t", array(':algo' => $algo, ':t' => $active_since));
+			$users_coins = (int) dboscalar("SELECT COUNT(DISTINCT userid) FROM workers WHERE algo=:algo AND pid=:pid AND time>=:t", array(':algo' => $algo, ':pid' => (is_null($port_db)?0 :$port_db->pid), ':t' => $active_since));
 			if ($port_count >= 1) 
 				echo "<td align='center' style='font-size: .8em;'>$users_coins</td>";
 			else	
