@@ -169,15 +169,26 @@ foreach ($algos as $item)
 				echo "<td align='center' style='font-size: .8em;'><b>".$port_db->port."</b></td>";
 			else 
 				echo "<td align='center' style='font-size: .8em;'><b>$port</b></td>";
-            
-			$active_since = time() - 600; // 10 minutes
-			$users_total = (int) dboscalar("SELECT COUNT(DISTINCT userid) FROM workers WHERE algo=:algo AND time>=:t", array(':algo' => $algo, ':t' => $active_since));
-			$users_coins = (int) dboscalar("SELECT COUNT(DISTINCT userid) FROM workers WHERE algo=:algo AND pid=:pid AND time>=:t", array(':algo' => $algo, ':pid' => (is_null($port_db)?0 :$port_db->pid), ':t' => $active_since));
-			if ($port_count >= 1) 
-				echo "<td align='center' style='font-size: .8em;'>$users_coins</td>";
-			else	
-				echo "<td align='center' style='font-size: .8em;'>$users_total</td>";
-            
+				// Active users: support anonymous wallet mining (userid=0).
+				// Count distinct (userid) for logged accounts, and distinct (name) for anonymous wallets.
+				$pid = (!is_null($port_db) && $port_count >= 1) ? (int) $port_db->pid : null;
+				if ($pid !== null) {
+					$users_active = (int) controller()->memcache->get_database_scalar(
+						"users_active-$algo-$pid",
+						"SELECT COUNT(DISTINCT IF(userid>0, CONCAT('u',userid), CONCAT('a',name))) FROM workers WHERE algo=:algo AND pid=:pid",
+						array(':algo' => $algo, ':pid' => $pid),
+						30
+					);
+				} else {
+					$users_active = (int) controller()->memcache->get_database_scalar(
+						"users_active-$algo",
+						"SELECT COUNT(DISTINCT IF(userid>0, CONCAT('u',userid), CONCAT('a',name))) FROM workers WHERE algo=:algo",
+						array(':algo' => $algo),
+						30
+					);
+				}
+				echo "<td align='center' style='font-size: .8em;'>$users_active</td>";
+
 			$workers_coins = getdbocount('db_workers', "algo=:algo and pid=:pid and not password like '%m=solo%'", array(':algo' => $algo,':pid' => (is_null($port_db)?0 :$port_db->pid)));
             $solo_workers_coins = getdbocount('db_workers', "algo=:algo and pid=:pid and password like '%m=solo%'", array(':algo' => $algo,':pid' => (is_null($port_db)?0 :$port_db->pid)));
             if ($port_count == 1) 
@@ -207,12 +218,20 @@ foreach ($algos as $item)
     }
 
 	$total_coins += $coins;
-	$total_users = $users_total;
 	$total_workers += $workers;
 	$total_solo_workers += $solo_workers;
 }
 
 echo "</tbody>";
+
+
+// Active users total: support anonymous wallet mining (userid=0).
+$total_users = (int) controller()->memcache->get_database_scalar(
+	'users_active_all',
+	"SELECT COUNT(DISTINCT IF(userid>0, CONCAT('u',userid), CONCAT('a',name))) FROM workers",
+	array(),
+	30
+);
 
 if ($defaultalgo == 'all') echo "<tr style='cursor: pointer; background-color: #d9d9d9;' onclick='javascript:select_algo(\"all\")'>";
 else echo "<tr style='cursor: pointer' class='ssrow' onclick='javascript:select_algo(\"all\")'>";

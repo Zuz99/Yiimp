@@ -237,50 +237,41 @@ echo "<table  class='dataGrid2'>";
 
 echo "<thead>";
 echo "<tr>";
-	echo "<th align=right>Time</th>";
-	echo "<th align=right>Amount</th>";
-	echo "<th>Coin</th>";
-	echo "<th>Tx</th>";
-	echo "</tr>";
+echo "<th align=right>Time</th>";
+echo "<th align=right>Amount</th>";
+echo "<th>Tx</th>";
+echo "</tr>";
 echo "</thead>";
 
-$totals = array(); $firstid = 999999999;
-	foreach($list as $payout)
-	{
-		$d = datetoa2($payout->time);
-		$pcoin = getdbo('db_coins', $payout->idcoin);
-		if(!$pcoin) $pcoin = $refcoin;
+$total = 0; $firstid = 999999999;
+foreach($list as $payout)
+{
+	$d = datetoa2($payout->time);
+	$amount = bitcoinvaluetoa($payout->amount);
+	$firstid = min($firstid, (int) $payout->id);
 
-		$amount = bitcoinvaluetoa($payout->amount);
-		$firstid = min($firstid, (int) $payout->id);
+	echo '<tr class="ssrow">';
+	echo '<td align="right"><b>'.$d.' ago</b></td>';
+	echo '<td align="right"><b>'.$amount.'</b></td>';
 
-		echo '<tr class="ssrow">';
-		echo '<td align="right"><b>'.$d.' ago</b></td>';
-		echo '<td align="right"><b>'.$amount.'</b></td>';
-		echo '<td><b>'.$pcoin->symbol.'</b></td>';
+	$payout_tx = substr($payout->tx, 0, 36).'...';
+	$link = $refcoin->createExplorerLink($payout_tx, array('txid'=>$payout->tx), array(), true);
 
-		$payout_tx = substr($payout->tx, 0, 36).'...';
-		$link = $pcoin->createExplorerLink($payout_tx, array('txid'=>$payout->tx), array(), true);
+	echo '<td style="font-family: monospace;">'.$link.'</td>';
+	echo '</tr>';
 
-		echo '<td style="font-family: monospace;">'.$link.'</td>';
-		echo '</tr>';
+	$total += $payout->amount;
+}
 
-		if(!isset($totals[$pcoin->symbol])) $totals[$pcoin->symbol] = 0.0;
-		$totals[$pcoin->symbol] += floatval($payout->amount);
-	}
+$amount = bitcoinvaluetoa($total);
 
-	if(count($totals))
-	{
-		$tot = array();
-		foreach($totals as $sym=>$val)
-			$tot[] = bitcoinvaluetoa($val)." ".$sym;
-		$totstr = implode(' + ', $tot);
-
-		echo "<tr class='ssrow'>";
-		echo "<td align='right'>Total:</td>";
-		echo "<td align='right' colspan='3'><b>{$totstr}</b></td>";
-		echo "</tr>";
-	}
+echo <<<end
+<tr class="ssrow">
+<td align="right">Total:</td>
+<td align="right"><b>{$amount}</b></td>
+<td></td>
+</tr>
+end;
 
 // Search extra Payouts which were not in the db (yiimp payout check command)
 // In this case, the id are greater than last 24h ones and the fee column is filled
@@ -290,55 +281,47 @@ if (!empty($list_extra)) {
 
 	echo <<<end
 	<tr class="ssrow" style="color: darkred;">
-	<th colspan="4"><b>Extra payouts detected in the last 24H to explain negative balances (buggy Wallets)</b></th>
+	<th colspan="3"><b>Extra payouts detected in the last 24H to explain negative balances (buggy Wallets)</b></th>
 	</tr>
 	<tr class="ssrow">
-	<td colspan="4" style="font-size: .9em; padding-bottom: 8px;">
+	<td colspan="3" style="font-size: .9em; padding-bottom: 8px;">
 	Some wallets (UFO,LYB) have a problem and don't always confirm a transaction in the requested time.<br/>
 	<!-- Please be honest and continue mining to handle these extra transactions sent to you. --><br/>
 	</th>
 	</tr>
 	<tr class="ssrow">
-	<th align="right">Time</th> <th align="right">Amount</th> <th>Coin</th> <th>Tx</th>
+	<th align="right">Time</th> <th align="right">Amount</th> <th>Tx</th>
 	</tr>
 end;
 
-	$totals_extra = array();
-		foreach($list_extra as $payout)
-		{
-			$d = datetoa2($payout->time);
-			$pcoin = getdbo('db_coins', $payout->idcoin);
-			if(!$pcoin) $pcoin = $refcoin;
+	$total = 0.0;
+	foreach($list_extra as $payout)
+	{
+		$d = datetoa2($payout->time);
+		$amount = bitcoinvaluetoa($payout->amount);
 
-			$amount = bitcoinvaluetoa($payout->amount);
+		echo '<tr class="ssrow">';
+		echo '<td align="right"><b>'.$d.' ago</b></td>';
+		echo '<td align="right"><b>'.$amount.'</b></td>';
 
-			echo '<tr class="ssrow">';
-			echo '<td align="right"><b>'.$d.' ago</b></td>';
-			echo '<td align="right"><b>'.$amount.'</b></td>';
-			echo '<td><b>'.$pcoin->symbol.'</b></td>';
+		$payout_tx = substr($payout->tx, 0, 36).'...';
+		$link = $refcoin->createExplorerLink($payout_tx, array('txid'=>$payout->tx), array(), true);
 
-			$payout_tx = substr($payout->tx, 0, 36).'...';
-			$link = $pcoin->createExplorerLink($payout_tx, array('txid'=>$payout->tx), array(), true);
+		echo '<td style="font-family: monospace;">'.$link.'</td>';
+		echo '</tr>';
 
-			echo '<td style="font-family: monospace;">'.$link.'</td>';
-			echo '</tr>';
+		$total += $payout->amount;
+	}
 
-			if(!isset($totals_extra[$pcoin->symbol])) $totals_extra[$pcoin->symbol] = 0.0;
-			$totals_extra[$pcoin->symbol] += floatval($payout->amount);
-		}
+	$amount = bitcoinvaluetoa($total);
 
-		if(count($totals_extra))
-		{
-			$tot = array();
-			foreach($totals_extra as $sym=>$val)
-				$tot[] = bitcoinvaluetoa($val)." ".$sym;
-			$totstr = implode(' + ', $tot);
-
-			echo "<tr class='ssrow' style='color: darkred;'>";
-			echo "<td align='right'>Total:</td>";
-			echo "<td align='right' colspan='3'><b>{$totstr}</b></td>";
-			echo "</tr>";
-		}
+	echo <<<end
+	<tr class="ssrow" style="color: darkred;">
+	<td align="right">Total:</td>
+	<td align="right"><b>{$amount}</b></td>
+	<td></td>
+	</tr>
+end;
 }
 
 
