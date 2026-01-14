@@ -1,93 +1,265 @@
-/* Custom overrides (loaded last) - keep minimal to preserve legacy Yiimp style */
+/*
+ * Custom UI overrides (loaded last)
+ * Goal: Modern dark UI without changing backend/core logic.
+ * All modern styling is scoped to body.modern.
+ * Use Classic UI by appending ?classic=1 to any URL.
+ */
 
-/* Tabular numbers for cleaner hash/amount columns */
-table.dataGrid,
-table.dataGrid2,
-table.reportgrid1 {
+/* ===== Modern base ===== */
+body.modern {
+	background: #1f2429 !important;
+	color: #d7dde5 !important;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+body.modern a { color: #2aa8ff; }
+body.modern a:hover { color: #5bd1ff; }
+
+body.modern .content-out { padding-top: 26px; }
+body.modern .content-inner { padding: 10px; }
+
+/* ===== Top navigation ===== */
+body.modern .tabmenu-out {
+	padding: 10px 10px 0 10px;
+}
+
+body.modern .tabmenu-inner {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 8px;
+	padding: 10px 12px;
+	background: #22282e;
+	border: 1px solid #343c45;
+	border-radius: 12px;
+	box-shadow: 0 10px 24px rgba(0,0,0,.25);
+}
+
+body.modern .nav-brand {
+	font-weight: 800;
+	letter-spacing: .5px;
+	text-transform: uppercase;
+	padding: 8px 10px;
+	border-radius: 10px;
+	color: #d7dde5;
+	text-decoration: none;
+}
+
+body.modern .nav-item-wrap { display: inline-flex; }
+
+body.modern .nav-item {
+	display: inline-flex;
+	align-items: center;
+	gap: 10px;
+	padding: 10px 12px;
+	border-radius: 10px;
+	border: 1px solid #343c45;
+	background: rgba(255,255,255,.02);
+	color: #d7dde5 !important;
+	text-decoration: none;
+	text-transform: uppercase;
+	letter-spacing: .6px;
+	font-weight: 700;
+	font-size: 12px;
+}
+
+body.modern .nav-item:hover {
+	background: rgba(42,168,255,.12);
+	border-color: rgba(42,168,255,.35);
+}
+
+body.modern .nav-item.selected {
+	background: rgba(42,168,255,.18);
+	border-color: rgba(42,168,255,.55);
+}
+
+body.modern .nav-ico-wrap {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 18px;
+	height: 18px;
+	color: rgba(215,221,229,.95);
+}
+
+body.modern svg.nav-ico { width: 18px; height: 18px; }
+
+body.modern .nav-right {
+	margin-left: auto;
+	display: inline-flex;
+	align-items: center;
+	gap: 10px;
+}
+
+body.modern .nav-classic {
+	font-size: 12px;
+	font-weight: 700;
+	letter-spacing: .4px;
+	text-transform: uppercase;
+	padding: 8px 10px;
+	border-radius: 10px;
+	border: 1px solid #343c45;
+	color: #9aa6b2 !important;
+	text-decoration: none;
+	background: rgba(255,255,255,.02);
+}
+
+body.modern .nav-classic:hover {
+	color: #d7dde5 !important;
+	background: rgba(255,255,255,.04);
+}
+
+body.modern #nextpayout {
+	font-size: 12px;
+	padding: 8px 10px;
+	border-radius: 999px;
+	border: 1px solid #343c45;
+	background: rgba(255,255,255,.02);
+	color: #d7dde5;
+}
+
+/* ===== Content cards / boxes ===== */
+body.modern .main-left-box,
+body.modern .main-left-inner,
+body.modern .main,
+body.modern .ui-widget-content,
+body.modern .well,
+body.modern .box {
+	background: #262c32 !important;
+	border: 1px solid #343c45 !important;
+	border-radius: 12px !important;
+	box-shadow: 0 10px 24px rgba(0,0,0,.22);
+}
+
+body.modern .main-left-title {
+	background: transparent !important;
+	border-bottom: 1px solid #343c45 !important;
+	color: #d7dde5 !important;
+	font-weight: 800;
+	text-transform: uppercase;
+	letter-spacing: .5px;
+}
+
+body.modern .main-left-title a {
+	color: #d7dde5 !important;
+	text-decoration: none;
+}
+
+/* Inputs */
+body.modern input,
+body.modern select,
+body.modern textarea {
+	background: #2b323a !important;
+	color: #d7dde5 !important;
+	border: 1px solid #343c45 !important;
+	border-radius: 10px !important;
+}
+
+body.modern input:focus,
+body.modern select:focus,
+body.modern textarea:focus {
+	outline: none !important;
+	border-color: rgba(42,168,255,.7) !important;
+	box-shadow: 0 0 0 3px rgba(42,168,255,.15) !important;
+}
+
+body.modern .main-text-input { width: 98%; }
+
+body.modern .main-submit-button {
+	background: rgba(42,168,255,.18) !important;
+	border: 1px solid rgba(42,168,255,.5) !important;
+	color: #d7dde5 !important;
+	font-weight: 800;
+}
+
+body.modern .main-submit-button:hover {
+	background: rgba(42,168,255,.28) !important;
+}
+
+/* ===== Tables (keep readable) ===== */
+body.modern table.dataGrid,
+body.modern table.dataGrid2,
+body.modern table.reportgrid1 {
 	font-variant-numeric: tabular-nums;
 }
 
-/* Keep numeric columns on one line */
-table.dataGrid td[align="right"],
-table.dataGrid th[align="right"],
-table.dataGrid2 td[align="right"],
-table.dataGrid2 th[align="right"],
-table.reportgrid1 td[align="right"],
-table.reportgrid1 th[align="right"],
-td.right, th.right {
-	white-space: nowrap;
+body.modern table.dataGrid th,
+body.modern table.dataGrid2 th,
+body.modern table.reportgrid1 th {
+	background: rgba(255,255,255,.04) !important;
+	color: #9aa6b2 !important;
+	border-bottom: 1px solid #343c45 !important;
 }
 
-/* Contrast fix: some setups use a dark page background while the default
- * section headers are light gray. Force a readable text color. */
-.main-left-title,
-.main-left-title a {
-	color: #111 !important;
+body.modern table.dataGrid td,
+body.modern table.dataGrid2 td,
+body.modern table.reportgrid1 td {
+	color: #d7dde5 !important;
+	border-top: 1px solid rgba(52,60,69,.6) !important;
 }
 
-/* Mobile: allow horizontal scroll for wide tables without breaking layout */
+body.modern table.dataGrid tr:nth-child(odd) td,
+body.modern table.dataGrid2 tr:nth-child(odd) td,
+body.modern table.reportgrid1 tr:nth-child(odd) td {
+	background: rgba(255,255,255,.02) !important;
+}
+
+body.modern td.right, body.modern th.right { white-space: nowrap; }
+
+/* ===== Footer ===== */
+body.modern .footer {
+	background: transparent !important;
+	color: #9aa6b2 !important;
+	font-weight: 700;
+}
+body.modern .footer a { color: #9aa6b2; }
+body.modern .footer a:hover { color: #d7dde5; }
+
+/* ===== Mobile tweaks ===== */
 @media (max-width: 768px) {
-	table.dataGrid,
-	table.dataGrid2,
-	table.reportgrid1 {
+	body.modern .tabmenu-inner { gap: 6px; }
+	body.modern .nav-item { padding: 10px 10px; }
+	body.modern .nav-label { display: inline; }
+
+	body.modern table.dataGrid,
+	body.modern table.dataGrid2,
+	body.modern table.reportgrid1 {
 		display: block;
 		overflow-x: auto;
 		-webkit-overflow-scrolling: touch;
 	}
 }
 
-/* ===== Getting Started page styles (scoped, light + readable) ===== */
-/* IMPORTANT: Keep styles scoped to .gs-* so the rest of the site keeps its original theme. */
-
-.gs-container {
+/* ===== Getting Started page (keep readable, slightly lighter) ===== */
+body.modern.gs .gs-container {
 	max-width: 1100px;
 	margin: 0 auto;
 	padding: 18px 14px;
 }
 
-.gs-hero {
+body.modern.gs .gs-hero,
+body.modern.gs .gs-card {
 	padding: 18px;
-	border: 1px solid #d8d8d8;
+	border: 1px solid #343c45;
 	border-radius: 12px;
-	background: #ffffff;
-	box-shadow: 0 8px 22px rgba(0,0,0,0.10);
+	background: #262c32;
+	box-shadow: 0 10px 24px rgba(0,0,0,.22);
 }
 
-.gs-hero h1 { margin: 0 0 6px 0; font-size: 26px; color: #111; }
-.gs-hero p { margin: 0; color: #444; }
+body.modern.gs .gs-hero h1,
+body.modern.gs .gs-card h2 { color: #d7dde5; }
 
-.gs-card {
-	margin-top: 14px;
-	padding: 18px;
-	border: 1px solid #d8d8d8;
-	border-radius: 12px;
-	background: #ffffff;
-	box-shadow: 0 8px 22px rgba(0,0,0,0.08);
-}
+body.modern.gs .gs-hero p,
+body.modern.gs .gs-card p,
+body.modern.gs .gs-card li { color: #d7dde5; }
 
-.gs-card h2 { margin-top: 0; font-size: 18px; color: #111; }
-.gs-card p, .gs-card li { color: #222; }
-
-.gs-note { color: #555; }
-
-.gs-code pre {
+body.modern.gs .gs-code pre {
 	white-space: pre-wrap;
 	word-break: break-word;
-	background: #f6f8fa;
-	border: 1px solid #e3e3e3;
+	background: #2b323a;
+	border: 1px solid #343c45;
 	border-radius: 10px;
 	padding: 12px;
 	overflow: auto;
-	color: #111;
-}
-
-.gs-tablewrap { overflow-x: auto; }
-
-/* On the Getting Started page, make tables readable without changing global table theme */
-.gs-container .dataGrid th {
-	background: #f2f2f2 !important;
-	color: #111 !important;
-}
-.gs-container .dataGrid td {
-	color: #111 !important;
+	color: #d7dde5;
 }

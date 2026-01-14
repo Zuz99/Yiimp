@@ -21,7 +21,7 @@ function nonkyc_api_query($method, $params='', $returnType='object')
 // just a template, needs to modify to work with api
 function nonkyc_api_user($method, $url_params = [], $request_method='GET', $returnType='object') {
 	$timedrift = 3;
-	if (!defined('EXCH_NONKYC_KEY') || !defined('EXCH_NONKYC_SECRET')) return false;
+	
 	if (empty(EXCH_NONKYC_KEY) || empty(EXCH_NONKYC_SECRET)) return false;
 
 	$nonce = (time() + $timedrift).rand(100,999); # tonce should be different from previous one
