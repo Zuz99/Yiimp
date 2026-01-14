@@ -13,22 +13,28 @@ function strip_data($data)
 	return $out;
 }
 
-require_once("bitstamp.php");
-require_once("cexio.php");
-require_once("exbitron.php");
-require_once("nestex.php");
-require_once("gateio.php");
-require_once("kraken.php");
-require_once("poloniex.php");
-require_once("yobit.php");
-require_once("shapeshift.php");
-require_once("binance.php");
-require_once("hitbtc.php");
-require_once("kucoin.php");
-require_once("nonkyc.php");
-require_once("tradeogre.php");
-require_once("safetrade.php");
-require_once("bibox.php");
+// IMPORTANT:
+// Use absolute paths (based on this file's directory) for includes.
+// When YiiMP is executed via runconsole.php the current working directory
+// is usually /home/crypto-data/yiimp/site/web/ and *not* this folder.
+// Plain relative require_once("file.php") will then fail and cause
+// undefined function errors like nestex_api_query()/nestex_api_user().
+require_once(__DIR__."/bitstamp.php");
+require_once(__DIR__."/cexio.php");
+require_once(__DIR__."/exbitron.php");
+require_once(__DIR__."/nestex.php");
+require_once(__DIR__."/gateio.php");
+require_once(__DIR__."/kraken.php");
+require_once(__DIR__."/poloniex.php");
+require_once(__DIR__."/yobit.php");
+require_once(__DIR__."/shapeshift.php");
+require_once(__DIR__."/binance.php");
+require_once(__DIR__."/hitbtc.php");
+require_once(__DIR__."/kucoin.php");
+require_once(__DIR__."/nonkyc.php");
+require_once(__DIR__."/tradeogre.php");
+require_once(__DIR__."/safetrade.php");
+require_once(__DIR__."/bibox.php");
 
 
 /* Format an exchange coin Url */

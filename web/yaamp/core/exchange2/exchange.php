@@ -1,7 +1,8 @@
 <?php
 
-require_once("CExchange.php");
-require_once("CExchangeCoin.php");
+// Use absolute paths for includes (see note in core/exchange/exchange.php).
+require_once(__DIR__."/CExchange.php");
+require_once(__DIR__."/CExchangeCoin.php");
 
 
 
