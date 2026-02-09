@@ -8,7 +8,7 @@ class AdminController extends CommonController {
 
 	public function actionDashboard()
 	{
-		if(!$this->admin) $this->redirect("/site/mining");
+		if(!$this->admin) $this->redirect("/admin/login");
 		$this->render('dashboard');
 	}
 
