@@ -5,6 +5,10 @@
  */
 function updateRawcoins()
 {
+	// RAWCOINS AUTO-DISCOVERY DISABLED: do not auto-insert coins/markets into DB
+	debuglog(__FUNCTION__." disabled");
+	return;
+
 	debuglog(__FUNCTION__);
 	// exit();
 	exchange_set_default('binance', 'disabled', true);

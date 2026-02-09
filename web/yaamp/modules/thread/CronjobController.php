@@ -121,7 +121,7 @@ class CronjobController extends CommonController
 		switch($state)
 		{
 			case 0:
-				updateRawcoins();
+			// updateRawcoins(); // DISABLED: no auto coin/market discovery
 
 				$btcusd = bitstamp_btcusd();
 				if($btcusd) {

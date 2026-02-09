@@ -1,14 +1,14 @@
 <?php
-require_once('poloniex_trading.php');
-require_once('binance_trading.php');
-require_once('exbitron_trading.php');
-require_once('nestex_trading.php');
-require_once('kraken_trading.php');
-require_once('yobit_trading.php');
-require_once('hitbtc_trading.php');
-require_once('kucoin_trading.php');
-require_once('tradeogre_trading.php');
-require_once('nonkyc_trading.php');
+require_once(__DIR__.'/poloniex_trading.php');
+require_once(__DIR__.'/binance_trading.php');
+require_once(__DIR__.'/exbitron_trading.php');
+require_once(__DIR__.'/nestex_trading.php');
+require_once(__DIR__.'/kraken_trading.php');
+require_once(__DIR__.'/yobit_trading.php');
+require_once(__DIR__.'/hitbtc_trading.php');
+require_once(__DIR__.'/kucoin_trading.php');
+require_once(__DIR__.'/tradeogre_trading.php');
+require_once(__DIR__.'/nonkyc_trading.php');
 
 function cancelExchangeOrder($order=false)
 {
