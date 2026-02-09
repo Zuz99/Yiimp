@@ -28,6 +28,7 @@ echo CHtml::cssFile("/extensions/jquery/themes/ui-lightness/jquery-ui.css");
 echo CHtml::cssFile('/yaamp/ui/css/main.css');
 echo CHtml::cssFile('/yaamp/ui/css/table.css');
 echo CHtml::cssFile('/yaamp/ui/css/custom.css');
+echo CHtml::cssFile('/yaamp/ui/css/jqplot_rgb.css');
 
 //echo CHtml::scriptFile('/extensions/jquery/js/jquery-1.8.3-dev.js');
 //echo CHtml::scriptFile('/extensions/jquery/js/jquery-ui-1.9.1.custom.min.js');
@@ -171,8 +172,8 @@ function showPageHeader()
 	}
 
 	echo '<span class="nav-right">';
-	if(!isset($_GET['classic']))
-		echo '<a class="nav-classic" href="'.htmlspecialchars($_SERVER['REQUEST_URI']).(strpos($_SERVER['REQUEST_URI'],'?')!==false?'&':'?').'classic=1">Classic UI</a>';
+//	if(!isset($_GET['classic']))
+//		echo '<a class="nav-classic" href="'.htmlspecialchars($_SERVER['REQUEST_URI']).(strpos($_SERVER['REQUEST_URI'],'?')!==false?'&':'?').'classic=1">Classic UI</a>';
 
 	$mining = getdbosql('db_mining');
 	$nextpayment = date('H:i T', $mining->last_payout+YAAMP_PAYMENTS_FREQ);
@@ -191,7 +192,7 @@ function showPageFooter()
 	$year = date("Y", time());
 
 	echo "<p>&copy; $year ".YAAMP_SITE_NAME.' - '.
-		'<a href="https://github.com/Kudaraidee/yiimp">Open source Project</a></p>';
+		'<a href="https://github.com/Zuz99/yiimp">Open source Project</a></p>';
 
 	echo '</div><!-- footer -->';
 }

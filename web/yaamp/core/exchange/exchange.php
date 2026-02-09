@@ -16,7 +16,7 @@ function strip_data($data)
 // IMPORTANT:
 // Use absolute paths (based on this file's directory) for includes.
 // When YiiMP is executed via runconsole.php the current working directory
-// is usually /home/crypto-data/yiimp/site/web/ and *not* this folder.
+// is usually /var/web/ and *not* this folder.
 // Plain relative require_once("file.php") will then fail and cause
 // undefined function errors like nestex_api_query()/nestex_api_user().
 require_once(__DIR__."/bitstamp.php");

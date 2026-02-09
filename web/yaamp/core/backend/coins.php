@@ -373,7 +373,15 @@ function BackendCoinsUpdate()
 			debuglog($coin->symbol." wallet is missing blocks in info-array");
 		}
 
-		$coin->version = substr($info['version'], 0, 32);
+		// PHP 8+: avoid undefined array key warnings on wallets that don't return 'version'
+		if (isset($info['version'])) {
+			$coin->version = substr($info['version'], 0, 32);
+		} else if (isset($info['walletversion'])) {
+			$coin->version = substr($info['walletversion'], 0, 32);
+		} else if (isset($info['protocolversion'])) {
+			$coin->version = substr($info['protocolversion'], 0, 32);
+		} // else keep existing value
+
 
 		if($coin->powend_height > 0 && $coin->block_height > $coin->powend_height) {
 			if ($coin->auto_ready) {

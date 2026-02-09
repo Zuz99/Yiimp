@@ -15,12 +15,22 @@ body.modern {
 body.modern a { color: #2aa8ff; }
 body.modern a:hover { color: #5bd1ff; }
 
-body.modern .content-out { padding-top: 26px; }
+/* Header is sticky (in-flow), so no extra top padding needed */
+body.modern .content-out { padding-top: 0px; }
 body.modern .content-inner { padding: 10px; }
 
 /* ===== Top navigation ===== */
 body.modern .tabmenu-out {
-	padding: 10px 10px 0 10px;
+	/* main.css uses position:fixed + hard height; override to avoid content being hidden */
+	position: sticky;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: auto;
+	padding: 10px;
+	background: rgba(31,36,41,.90);
+	background-image: none !important;
+	z-index: 50;
 }
 
 body.modern .tabmenu-inner {

@@ -29,7 +29,9 @@ function nestex_api_query($method = 'cg/tickers', $params = '', $returnType = 'a
 
 function nestex_api_user($method, $url_params = [], $request_method = 'GET', $returnType = 'array') {
 
-	if (empty(EXCH_NESTEX_SECRET)) return false;
+	// Guard for PHP 8+: avoid "Undefined constant" when Nestex keys are not configured
+	if (!defined('EXCH_NESTEX_KEY') || !defined('EXCH_NESTEX_SECRET')) return false;
+	if (empty(EXCH_NESTEX_KEY) || empty(EXCH_NESTEX_SECRET)) return false;
 	if (!is_array($url_params)) return false;
 
 	$base = 'https://trade.nestex.one'; 
